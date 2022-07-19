@@ -1,0 +1,30 @@
+version: "4"
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    container_name: database
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - 5435:5432
+
+    volumes:
+      - ./postgres-db:/var/lib/postgresql/data
+
+  web:
+    build: .
+    container_name: golang
+    # restart: unless-stopped
+    command: go run server.go
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+  
+  
+
+
